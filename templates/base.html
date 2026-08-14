@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ustudy by Uzinfocom</title>
+<style>
+  :root {
+    --bg-dark: #0a0e2a;
+    --bg-dark-2: #0d1230;
+    --green: #4caf50;
+    --green-light: #6fcf73;
+    --text-light: #ffffff;
+    --text-muted: #b7bacb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background-color: var(--bg-dark);
+  }
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .navbar-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .navbar-title {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .navbar-links a {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text-light);
+  }
+
+  .navbar-links a:hover {
+    color: var(--green-light);
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--green);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--green-light);
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  main {
+    min-height: 60vh;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background-color: var(--bg-dark-2);
+    padding: 60px 60px 30px;
+  }
+
+  .footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    justify-content: space-between;
+    padding-bottom: 40px;
+  }
+
+  .footer-col h4 {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .footer-col a {
+    font-size: 14px;
+    color: var(--text-light);
+  }
+
+  .footer-col a:hover {
+    color: var(--green-light);
+  }
+
+  .footer-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-bottom-links a:hover {
+    color: var(--text-light);
+  }
+
+  @media (max-width: 900px) {
+    .navbar { flex-wrap: wrap; gap: 16px; padding: 16px 24px; }
+    .navbar-links { flex-wrap: wrap; gap: 16px; }
+    footer { padding: 40px 24px 24px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">U<br>study</div>
+      <span class="navbar-title">USTUDY BY UZINFOCOM</span>
+    </div>
+
+    <nav>
+      <ul class="navbar-links">
+        <li><a href="#">KURSLAR</a></li>
+        <li><a href="{%url 'about_us'%}">BIZ HAQIMIZDA</a></li>
+        <li><a href="#">MASLAHAT</a></li>
+        <li><a href="{% url 'contacts' %}">KONTAKTLAR</a></li>
+        <li><a href="{% url 'news' %}">YANGILIKLAR</a></li>
+        <li><a href="#">KIBERGIGIYENA</a></li>
+      </ul>
+    </nav>
+
+    <div class="navbar-right">
+      <button class="btn-primary">Barcha kurslar ▾</button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT (o'zingiz to'ldirasiz) ===== -->
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-columns">
+      <div class="footer-col">
+        <h4>Sahifalar</h4>
+        <ul>
+          <li><a href="{%url 'about_us'%}">Biz haqimizda</a></li>
+          <li><a href="#">Maslahat</a></li>
+          <li><a href="{% url 'contacts' %}">Kontaktlar</a></li>
+          <li><a href="#">Ma'ruzachilar</a></li>
+          <li><a href="{% url 'news' %}">Yangiliklar</a></li>
+          <li><a href="#">Kibergigiyena</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kurslar</h4>
+        <ul>
+          <!-- kurslar ro'yxati shu yerga -->
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Ijtimoiy tarmoqlar</h4>
+        <ul>
+          <li class="footer-contact">
+            <a href="mailto:info@ustudy.uz">info@ustudy.uz</a>
+          </li>
+          <li class="footer-contact">
+            <a href="tel:+998555015353">+998 55 501 53 53</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <div class="navbar-logo" style="width:32px;height:32px;font-size:9px;">U<br>study</div>
+        <span>Copyright &copy; 2025 Uzinfocom. Barcha huquqlar himoyalangan.</span>
+      </div>
+      <div class="footer-bottom-links">
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
