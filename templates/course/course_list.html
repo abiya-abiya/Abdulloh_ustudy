@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    /* Asosiy fon uchun (agar base.html da berilmagan bo'lsa) */
+    body {
+        background-color: #1a1b2a;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Kartochkalar turadigan umumiy konteyner */
+    .courses-grid {
+        display: grid;
+        /* Katta ekranlarda 4 ta, o'rtacha ekranlarda 2-3 ta ustun bo'lishi uchun */
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 25px;
+        padding: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Har bir kurs kartochkasi dizayni */
+    .course-card {
+        background-color: #2a2b3d;
+        border-radius: 12px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 380px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .course-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #ffffff;
+    }
+
+    .course-badges {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* "12 oy" yozuvi dizayni */
+    .badge-duration {
+        background-color: rgba(76, 175, 80, 0.15);
+        color: #4caf50;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+
+    /* "Oflayn" yozuvi dizayni */
+    .badge-status {
+        background-color: rgba(33, 150, 243, 0.15);
+        color: #2196f3;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: 1px solid rgba(33, 150, 243, 0.3);
+    }
+
+    .course-description {
+        color: #9ba1a6;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        flex-grow: 1; /* Narx va tugmani doim pastda ushlab turadi */
+    }
+
+    .course-price {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #ffffff;
+    }
+
+    /* "Batafsil" tugmasi */
+    .btn-batafsil {
+        background-color: #5cb85c;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        display: block;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-batafsil:hover {
+        background-color: #4cae4c;
+        color: white;
+    }
+
+    /* Rasm uchun (agar xohlasangiz) */
+    .course-img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="courses-grid">
+    {% for c in course %}
+    <div class="course-card">
+        <div class="card-top">
+            <!--
+            Sizning rasmingizni chiqarish uchun kod (Hozircha o'chirilgan).
+            Yoqish uchun pastdagi izoh (comment) belgilari qavslarini olib tashlang:
+            -->
+            <!--
+            {% if c.image %}
+                <img src="{{ c.image.url }}" alt="{{ c.title }}" class="course-img">
+            {% endif %}
+            -->
+
+            <div class="course-title">{{ c.title }}</div>
+
+            <div class="course-badges">
+                <span class="badge-duration">{{ c.duration }} oy</span>
+                <span class="badge-status">{{ c.status }}</span>
+            </div>
+
+            <div class="course-description">
+                Haftada {{ c.weekday }} kun dars bo'ladi. Har bir darsning davomiyligi o'rtacha {{ c.lesson_duration }} soatni tashkil etadi. Bu kurs orqali siz IT sohasida ilk qadamlaringizni qo'yishingiz mumkin.
+            </div>
+        </div>
+
+        <div class="card-bottom">
+            <div class="course-price">{{ c.price }} sum oyiga</div>
+            <!-- Batafsil sahifasi yo'li (URL) ni href ga ulab qo'yishingiz mumkin -->
+            <a href="#" class="btn-batafsil">Batafsil</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
