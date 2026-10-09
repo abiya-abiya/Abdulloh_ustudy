@@ -12,4 +12,7 @@ def list_course(request):
     return render(request, 'course/course_list.html', context)
 
 
-
+def detail_course(request, pk):
+    course = Courses.objects.get(pk=pk)
+    context = {'course': course}
+    return render(request, 'course/course_detail.html', context)

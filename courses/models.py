@@ -10,6 +10,7 @@ class Courses(models.Model):
     price = models.IntegerField()
     status = models.CharField(max_length=100)
     image = models.ImageField(upload_to='media', null=True, blank=True)
+    video = models.FileField(upload_to='courses/videos/', null=True, blank=True)
 
     def __str__(self):
         return self.title

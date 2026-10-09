@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #11121a;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .detail-container {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .course-detail-card {
+        background-color: #1d1e26;
+        border-radius: 16px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    @media (min-width: 768px) {
+        .course-detail-card {
+            flex-direction: row;
+            align-items: center;
+        }
+    }
+
+    .detail-left {
+        flex: 1.2;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* O'ng tomon - Media (Video preview / Rasm) */
+    .detail-right {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Video/Preview uchun qobiq */
+    .video-preview-wrapper {
+        position: relative;
+        cursor: pointer;
+        width: 100%;
+        max-width: 500px;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .video-preview-wrapper img {
+        width: 100%;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .video-preview-wrapper:hover img {
+        transform: scale(1.03);
+    }
+
+    /* Play tugmasi ustida turadigan overlay */
+    .play-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .play-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .play-icon::after {
+        content: "";
+        display: block;
+        border-style: solid;
+        border-width: 12px 0 12px 20px;
+        border-color: transparent transparent transparent #11121a;
+        margin-left: 5px;
+    }
+
+    .video-preview-wrapper:hover .play-icon {
+        transform: scale(1.1);
+    }
+
+    .detail-title { font-size: 2rem; font-weight: bold; color: #ffffff; }
+    .detail-description { color: #9ba1a6; font-size: 1rem; line-height: 1.6; }
+
+    .detail-badges { display: flex; gap: 15px; flex-wrap: wrap; }
+    .badge-item { display: flex; flex-direction: column; gap: 5px; }
+    .badge-value { color: #4caf50; font-size: 1.2rem; font-weight: bold; }
+    .badge-label { color: #9ba1a6; font-size: 0.85rem; }
+
+    .detail-price { font-size: 1.8rem; font-weight: bold; margin-top: 10px; }
+    .btn-yozilish {
+        background-color: #5cb85c; color: white; padding: 15px 30px;
+        border-radius: 8px; text-decoration: none; font-weight: bold;
+        display: inline-block; transition: background 0.3s; width: fit-content;
+    }
+    .btn-yozilish:hover { background-color: #4cae4c; }
+
+    /* =======================================================
+       3-Qadam. STORY VIDEO MODAL (POP-UP) INTERFEYSI
+       ======================================================= */
+    .video-modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.85); /* Qoraytirilgan fon */
+        backdrop-filter: blur(8px); /* Orqa fonni xiralashtirish */
+        display: none; /* Standartda yopiq turadi */
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    }
+
+    /* Modal karta (Vertikal story shaklida) */
+    .video-modal-card {
+        position: relative;
+        width: 100%;
+        max-width: 380px; /* Vertikal Story shaklida */
+        height: 80vh; /* Ekran balandligining 80 foizi */
+        background-color: #000;
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        border: 1px solid #333;
+    }
+
+    /* Modal yuqori qismi (User info va Yopish tugmasi) */
+    .modal-top-bar {
+        position: absolute;
+        top: 0; left: 0; width: 100%;
+        padding: 15px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .modal-user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-user-logo {
+        width: 35px;
+        height: 35px;
+        background-color: #2e7d32; /* Ustudy yashil rangi */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 14px;
+        border: 2px solid #fff;
+    }
+
+    .modal-user-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-user-name {
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .modal-user-sub {
+        font-size: 11px;
+        color: #b0b0b0;
+    }
+
+    /* Modalni yopish (X) */
+    .close-modal-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+        padding: 5px;
+    }
+
+    .close-modal-btn:hover {
+        opacity: 1;
+    }
+
+    /* Video player */
+    .modal-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Videoni vertikal qoplab turishi uchun */
+    }
+
+    /* "Subscribe" yoki "Kursga Yozilish" overlayi pastda */
+    .modal-bottom-overlay {
+        position: absolute;
+        bottom: 50px;
+        right: 15px;
+        z-index: 10;
+    }
+
+    .btn-subscribe {
+        background-color: #ff0000;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        box-shadow: 0 4px 10px rgba(255,0,0,0.4);
+    }
+</style>
+
+<div class="detail-container">
+    <div class="course-detail-card">
+
+        <!-- Chap tomondagi ma'lumotlar -->
+        <div class="detail-left">
+            <div class="detail-title">{{ course.title }}</div>
+            <div class="detail-description">
+                Ushbu ta'lim dasturi sizga IT sohasida asosiy bilim va amaliy ko'nikmalarni shakllantirishga yordam beradi. Dasturlash asoslari va texnologiyalarga qiziqishni orttirish maqsadida interaktiv va amaliy topshiriqlar bajariladi.
+            </div>
+
+            <div class="detail-badges">
+                <div class="badge-item">
+                    <span class="badge-value">{{ course.duration }} oy</span>
+                    <span class="badge-label">Davomiyligi</span>
+                </div>
+                <div class="badge-item">
+                    <span class="badge-value">{{ course.weekday }} kun</span>
+                    <span class="badge-label">Haftada</span>
+                </div>
+                <div class="badge-item">
+                    <span class="badge-value">{{ course.lesson_duration }} soat</span>
+                    <span class="badge-label">Dars vaqti</span>
+                </div>
+            </div>
+
+            <div class="detail-price">{{ course.price }} so'm oyiga</div>
+            <a href="#" class="btn-yozilish">Kursga yozilish</a>
+        </div>
+
+        <!-- O'ng tomondagi media-karta (Video bosilishidan oldin) -->
+        <div class="detail-right">
+            {% if course.video %}
+                <!-- Agar video mavjud bo'lsa, bosish uchun maxsus play-tugmali rasm kabi ko'rinadi -->
+                <div class="video-preview-wrapper" id="openVideoBtn">
+                    {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                    {% else %}
+                        <img src="/static/images/default-course.jpg" alt="Default">
+                    {% endif %}
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Agar video yo'q bo'lsa, faqat rasmni o'zi chiqadi -->
+                {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.title }}" style="width: 100%; border-radius: 12px;">
+                {% endif %}
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<!-- =============================================
+     STORY VIDEO POP-UP MODAL OYNASI
+     ============================================= -->
+{% if course.video %}
+<div class="video-modal-overlay" id="videoModal">
+    <div class="video-modal-card">
+
+        <!-- Yuqori panel (Story kabi) -->
+        <div class="modal-top-bar">
+            <div class="modal-user-info">
+                <div class="modal-user-logo">U</div>
+                <div class="modal-user-text">
+                    <span class="modal-user-name">{{ course.title }}</span>
+                    <span class="modal-user-sub">Toshkent · Mirzo Ulug'bek · IT Park</span>
+                </div>
+            </div>
+            <button class="close-modal-btn" id="closeModalBtn">&times;</button>
+        </div>
+
+        <!-- Video Player -->
+        <video class="modal-video" id="modalVideo" loop controls>
+            <source src="{{ course.video.url }}" type="video/mp4">
+            Brauzeringiz ushbu videoni qo'llab-quvvatlamaydi.
+        </video>
+
+        <!-- SUBSCRIBE Tugmasi (Overlay kabi) -->
+        <div class="modal-bottom-overlay">
+            <a href="#" class="btn-subscribe">
+                🔔 KURSGA YOZILISH
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endif %}
+
+<!-- =============================================
+     JAVASCRIPT: Bosganda ochish va yopish logikasi
+     ============================================= -->
+<script>
+    const openBtn = document.getElementById('openVideoBtn');
+    const modal = document.getElementById('videoModal');
+    const closeBtn = document.getElementById('closeModalBtn');
+    const video = document.getElementById('modalVideo');
+
+    // Tugma yoki Rasmni bosganda modalni ochish
+    if (openBtn && modal && video) {
+        openBtn.addEventListener('click', function() {
+            modal.style.display = 'flex';
+            video.currentTime = 0; // videoni boshidan boshlash
+            video.play();          // avtomatik ishga tushirish
+        });
+    }
+
+    // Modalni yopish (X) bosilganda
+    if (closeBtn && modal && video) {
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            video.pause(); // videoni to'xtatish
+        });
+    }
+
+    // Modal tashqarisiga (orqa fonga) bosilganda yopish
+    if (modal && video) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                video.pause();
+            }
+        });
+    }
+</script>
+
+{% endblock %}

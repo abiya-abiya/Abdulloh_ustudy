@@ -139,7 +139,7 @@
         <div class="card-bottom">
             <div class="course-price">{{ c.price }} sum oyiga</div>
             <!-- Batafsil sahifasi yo'li (URL) ni href ga ulab qo'yishingiz mumkin -->
-            <a href="#" class="btn-batafsil">Batafsil</a>
+            <a href="{% url 'detail_course' pk=c.pk %}" class="btn-batafsil">Batafsil</a>
         </div>
     </div>
     {% endfor %}
