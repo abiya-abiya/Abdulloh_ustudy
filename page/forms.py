@@ -11,4 +11,5 @@ class SpeakersForm(forms.ModelForm):
             'last_name',
             'description',
             'experience',
+            'image',
         ]

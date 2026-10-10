@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Asosiy fon va konteyner */
+    .mentors-container {
+        padding: 2rem;
+        background-color: #222530; /* Asosiy orqa fon */
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+    }
+
+    /* 4 ta ustunli grid (Responsive) */
+    .mentors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Kartochka dizayni */
+    .mentor-card {
+        background-color: #2d323e; /* Kartochka foni */
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s ease;
+    }
+
+    .mentor-card:hover {
+        transform: translateY(-4px);
+    }
+
+    /* Rasm qismi */
+    .mentor-image-wrapper {
+        position: relative;
+        height: 240px;
+        width: 100%;
+        background-color: #1e2129;
+    }
+
+    .mentor-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Rasmdagi oq lokatsiya yozuvi (Badge) */
+    .location-badge {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #ffffff;
+        color: #373b44;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 6px;
+        white-space: nowrap;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        z-index: 2;
+    }
+
+    /* Ma'lumotlar qismi */
+    .mentor-info {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* Ism-sharifi (Rasmdagi kabi "Familiya Ism -") */
+    .mentor-name {
+        color: #ffffff;
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    /* Soha/Fan nomi (Yashil rang) */
+    .mentor-subject {
+        color: #4ade80; /* Yashil rang */
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin: 0 0 10px 0;
+    }
+
+    /* Tajriba qismi (To'q kulrang fon) */
+    .mentor-experience {
+        color: #9ca3af;
+        font-size: 0.8rem;
+        padding: 5px 12px;
+        background-color: #242833;
+        border: 1px solid #3b404d;
+        border-radius: 8px;
+        align-self: flex-start;
+    }
+</style>
+
+<div class="mentors-container">
+    <div class="mentors-grid">
+        {% for i in speakers %}
+        <div class="mentor-card">
+
+            <div class="mentor-image-wrapper">
+                <div class="location-badge">Toshkent - Mirzo Ulug'bek - IT Park</div>
+                {% if i.image %}
+                    <!-- Django ImageField uchun .url ishlatilishi kerak -->
+                    <img src="{{ i.image.url }}" alt="{{ i.first_name }}">
+                {% endif %}
+            </div>
+
+            <div class="mentor-info">
+                <!-- Rasmdagi kabi ketma-ketlik: Familiya Ism - -->
+                <h3 class="mentor-name">{{ i.last_name }} {{ i.first_name }} -</h3>
+
+                <!-- Qaysi soha/fandan dars o'tishi -->
+                <p class="mentor-subject">{{ i.description }}</p>
+
+                <!-- Tajriba yili -->
+                <div class="mentor-experience">Tajriba: {{ i.experience }}</div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
