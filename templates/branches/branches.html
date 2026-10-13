@@ -3,9 +3,8 @@
 {% block content %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-<!-- CSS STYLES (Oldingi kodda berilgan CSS larni shu yerga qo'yasiz) -->
 <style>
-  /* Asosiy konteyner */
+    /* Asosiy konteyner */
     .branches-section {
         padding: 2rem;
         background-color: #222530;
@@ -38,15 +37,15 @@
         height: 450px;
         width: 100%;
         background-color: #e5e5e5;
-        z-index: 1; /* Dropdownlar xaritani tagida qolib ketmasligi uchun */
+        z-index: 1;
     }
 
     /* Filiallar ro'yxati qismi */
     .locations-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1px; /* Tugmalar o'rtasidagi chegara uchun */
-        background-color: #3b404d; /* O'rtadagi chiziq rangi */
+        gap: 1px;
+        background-color: #3b404d;
     }
 
     .location-item {
@@ -63,7 +62,7 @@
 
     /* Faol (Tanlangan) filial dizayni */
     .location-item.active {
-        border-left: 4px solid #4ade80; /* Yashil chiziq */
+        border-left: 4px solid #4ade80;
         background-color: #2d323e;
     }
 
@@ -77,7 +76,7 @@
     }
 
     .location-item.active h4 {
-        color: #4ade80; /* Faol bo'lganda yashil rang */
+        color: #4ade80;
     }
 
     .location-item p {
@@ -91,7 +90,6 @@
         color: #4ade80;
     }
 
-    /* Telefon uchun moslashuvchanlik */
     @media (max-width: 768px) {
         .locations-grid {
             grid-template-columns: 1fr;
@@ -106,19 +104,21 @@
         <div id="map"></div>
 
         <div class="locations-grid">
-            <!-- BAZADAN KELAYOTGAN FILIALLARNI SIKL ORQALI CHIQARAMIZ -->
             {% for branch in branches %}
 
-            <!-- forloop.first orqali birinchi elementga avtomatik 'active' klassini beramiz -->
-            <div class="location-item {% if forloop.first %}active{% endif %}"
-                 onclick="changeLocation(this, {{ branch.latitude|stringformat:'f' }}, {{ branch.longitude|stringformat:'f' }})">
-                <h4>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a5.53 5.53 0 0 0-5.5 5.5c0 3.7 4.3 9.4 5.1 10.4a.6.6 0 0 0 .9 0c.8-1 5.1-6.7 5.1-10.4A5.53 5.53 0 0 0 8 0zm0 8a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
-                    {{ branch.name }}
-                </h4>
-                <p>{{ branch.address }}</p>
-            </div>
+                <div class="location-item {% if forloop.first %}active{% endif %}"
+                     onclick="changeLocation(this, {{ branch.latitude|stringformat:'f' }}, {{ branch.longitude|stringformat:'f' }})">
+                    <h4>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 0a5.53 5.53 0 0 0-5.5 5.5c0 3.7 4.3 9.4 5.1 10.4a.6.6 0 0 0 .9 0c.8-1 5.1-6.7 5.1-10.4A5.53 5.53 0 0 0 8 0zm0 8a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                        </svg>
+                        {{ branch.name }}
+                    </h4>
+                    <p>{{ branch.address }}</p>
+                </div>
 
+            {% empty %}
+                <p style="padding: 20px; color: white;">Hozircha filiallar kiritilmagan. Iltimos Admin paneldan filial qo'shing.</p>
             {% endfor %}
         </div>
     </div>
@@ -126,23 +126,21 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // Agar bazada filiallar bo'lsa, xaritani birinchi filial kordinatasi bilan ochamiz
     {% if branches %}
-        var map = L.map('map').setView([{{ branches.0.latitude|stringformat:'f' }}, {{ branches.0.longitude|stringformat:'f' }}], 14);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        var marker = L.marker([{{ branches.0.latitude|stringformat:'f' }}, {{ branches.0.longitude|stringformat:'f' }}]).addTo(map);
+        var map = L.map('map').setView([{{ branches.0.latitude|stringformat:'f' }}, {{ branches.0.longitude|stringformat:'f' }}], 12);
     {% else %}
-        // Agar baza bo'sh bo'lsa, standart Toshkent kordinatalari bilan ochiladi
         var map = L.map('map').setView([41.311081, 69.240562], 12);
-        // Eski bloklangan OSM kodi o'rniga shuni qo'ying:
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-}).addTo(map);
     {% endif %}
+
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri'
+    }).addTo(map);
+
+    {% for branch in branches %}
+        L.marker([{{ branch.latitude|stringformat:'f' }}, {{ branch.longitude|stringformat:'f' }}])
+         .addTo(map)
+         .bindPopup("<b>{{ branch.name|escapejs }}</b><br>{{ branch.address|escapejs }}");
+    {% endfor %}
 
     function changeLocation(element, lat, lng) {
         var items = document.querySelectorAll('.location-item');
@@ -151,8 +149,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
         });
 
         element.classList.add('active');
+
         map.flyTo([lat, lng], 14);
-        marker.setLatLng([lat, lng]);
     }
 </script>
+
 {% endblock %}
