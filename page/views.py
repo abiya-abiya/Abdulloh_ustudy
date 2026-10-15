@@ -39,3 +39,4 @@ def list_branches(request):
     branches = Branches.objects.filter(is_active=True)
     context = {'branches': branches}
     return render(request, 'branches/branches.html', context)
+# def
