@@ -1,11 +1,11 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from page.forms import SpeakersForm, ApplicationForm
 from courses.models import Courses
-from page.models import Speakers, Branches
+from page.models import Speakers, Branches, News
 
 
 # Create your views here.
@@ -36,17 +36,27 @@ def home(request):
         'advantages': ADVANTAGES,
         'courses': Courses.objects.all()[:8],
         'speakers': Speakers.objects.select_related('course')[:8],
+        'news_list': News.objects.filter(is_published=True)[:4],
         'form': ApplicationForm(),
     }
     return render(request, 'home/home.html', context)
 
 def about_us(request):
-    return render(request, 'about-us/about-us.html')
+    context = {'roadmap': ROADMAP, 'advantages': ADVANTAGES, 'form': ApplicationForm()}
+    return render(request, 'about-us/about-us.html', context)
 
 def contact_us(request):
-    return render(request, 'contacts/contacts.html')
+    context = {'branches': Branches.objects.filter(is_active=True), 'form': ApplicationForm()}
+    return render(request, 'contacts/contacts.html', context)
 def news(request):
-    return render(request, 'news/news.html')
+    # shortcut: sahifalash yo'q, yangiliklar ko'payib ketsa Paginator qo'shish kerak
+    context = {'news_list': News.objects.filter(is_published=True)}
+    return render(request, 'news/news.html', context)
+
+
+def news_detail(request, pk):
+    item = get_object_or_404(News, pk=pk, is_published=True)
+    return render(request, 'news/news_detail.html', {'item': item})
 
 # def create_speakers(request):
 #     if request.method == 'POST':

@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
+{% block title %}Yangiliklar — Ustudy{% endblock %}
 {% block content %}
-
-
+<section class="section container">
+    <h1 class="section-title">Voqealar va tadbirlar</h1>
+    <div class="grid-4">
+        {% for n in news_list %}
+        {% include 'partials/news_card.html' %}
+        {% empty %}
+        <p>Hozircha yangiliklar yo'q.</p>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

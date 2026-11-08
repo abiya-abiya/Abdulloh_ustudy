@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from page.models import Speakers, Branches, Application
+from page.models import Speakers, Branches, Application, News
 
 
 @admin.register(Speakers)
@@ -23,3 +23,11 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_editable = ('is_contacted',)
     search_fields = ('full_name', 'phone')
     readonly_fields = ('created_at',)
+
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'is_published')
+    list_filter = ('is_published',)
+    list_editable = ('is_published',)
+    search_fields = ('title', 'body')

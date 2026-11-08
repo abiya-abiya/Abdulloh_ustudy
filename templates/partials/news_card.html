@@ -1,0 +1,8 @@
+<a href="{% url 'news_detail' n.pk %}" class="news-card">
+    <div class="news-image">{% if n.image %}<img src="{{ n.image.url }}" alt="{{ n.title }}">{% endif %}</div>
+    <div class="news-body">
+        <time datetime="{{ n.created_at|date:'c' }}">{{ n.created_at|date:"d.m.Y" }}</time>
+        <h3>{{ n.title }}</h3>
+        <p>{{ n.body|truncatewords:20 }}</p>
+    </div>
+</a>

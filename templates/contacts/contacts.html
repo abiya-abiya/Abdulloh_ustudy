@@ -1,5 +1,37 @@
 {% extends 'base.html' %}
+{% block title %}Kontaktlar — Ustudy{% endblock %}
 {% block content %}
 
+<section class="container section">
+    <h1 class="section-title">Kontaktlar</h1>
+    <div class="grid-3">
+        <a href="tel:+998555015353" class="card contact-item"><span aria-hidden="true">📞</span><small>Telefon</small><b>+998 55 501 53 53</b></a>
+        <a href="mailto:info@ustudy.uz" class="card contact-item"><span aria-hidden="true">✉️</span><small>Email</small><b>info@ustudy.uz</b></a>
+        <a href="{% url 'list_branches' %}" class="card contact-item"><span aria-hidden="true">📍</span><small>Filiallar</small><b>Xaritada ko'rish</b></a>
+    </div>
+</section>
+
+{% if branches %}
+<section class="container section">
+    <h2 class="section-title">Filiallarimiz</h2>
+    <div class="grid-3">
+        {% for b in branches %}
+        <div class="card contact-branch">
+            <h3>{{ b.name }}</h3>
+            <p>{{ b.address }}</p>
+            <a href="https://yandex.uz/maps/?pt={{ b.longitude|stringformat:'f' }},{{ b.latitude|stringformat:'f' }}&z=16" target="_blank" rel="noopener">Yandex xaritada ochish →</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="container section apply-section">
+    {% include 'partials/application_form.html' with apply_title="Biz bilan bog'laning" %}
+    <div class="card apply-info">
+        <h3>Savollaringiz bormi?</h3>
+        <p>Arizangizni qoldiring, menejerimiz siz bilan bog'lanib, mos kursni tanlashga yordam beradi.</p>
+    </div>
+</section>
 
 {% endblock %}

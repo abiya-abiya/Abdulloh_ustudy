@@ -38,3 +38,19 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.full_name} ({self.phone})"
+
+
+class News(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Sarlavha")
+    body = models.TextField(verbose_name="Matn")
+    image = models.ImageField(upload_to='news/', blank=True, null=True, verbose_name="Rasm")
+    is_published = models.BooleanField(default=True, verbose_name="Chop etilganmi?")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Sana")
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Yangilik"
+        verbose_name_plural = "Yangiliklar"
+
+    def __str__(self):
+        return self.title

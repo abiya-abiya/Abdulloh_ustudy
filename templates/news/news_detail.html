@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ item.title }} — Ustudy{% endblock %}
+{% block content %}
+<article class="section container">
+    <div class="card news-article">
+        <a href="{% url 'news' %}" class="back-link">← Barcha yangiliklar</a>
+        <time datetime="{{ item.created_at|date:'c' }}">{{ item.created_at|date:"d.m.Y" }}</time>
+        <h1>{{ item.title }}</h1>
+        {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.title }}">{% endif %}
+        <div class="news-text">{{ item.body|linebreaks }}</div>
+    </div>
+</article>
+{% endblock %}

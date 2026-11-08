@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from courses.models import Courses
-from page.models import Application, Branches
+from page.models import Application, Branches, News
 
 
 class ApplyTests(TestCase):
@@ -57,3 +57,29 @@ class HomeTests(TestCase):
         r = self.client.get(reverse('home'))
         self.assertEqual(r.status_code, 200)
         self.assertNotContains(r, "O'z kursingizni tanlang")
+
+
+
+class PagesTests(TestCase):
+    def test_news_list_and_home_show_only_published(self):
+        News.objects.create(title="Hackathon", body="Matn")
+        News.objects.create(title="Qoralama", body="Matn", is_published=False)
+        for url in (reverse('news'), reverse('home')):
+            r = self.client.get(url)
+            self.assertContains(r, "Hackathon")
+            self.assertNotContains(r, "Qoralama")
+
+    def test_news_detail(self):
+        n = News.objects.create(title="Hackathon", body="Birinchi abzats")
+        draft = News.objects.create(title="Qoralama", body="x", is_published=False)
+        self.assertContains(self.client.get(reverse('news_detail', args=[n.pk])), "Birinchi abzats")
+        self.assertEqual(self.client.get(reverse('news_detail', args=[draft.pk])).status_code, 404)
+
+    def test_about_and_contacts_have_form(self):
+        Branches.objects.create(name="Nukus - IT Park", address="Nukus", latitude=42.4, longitude=59.6)
+        about = self.client.get(reverse('about_us'))
+        self.assertContains(about, "Biz haqimizda")
+        self.assertContains(about, 'id="apply"')
+        contacts = self.client.get(reverse('contacts'))
+        self.assertContains(contacts, "Nukus - IT Park", count=2)  # filial kartochkasi + formadagi variant
+        self.assertContains(contacts, 'id="apply"')

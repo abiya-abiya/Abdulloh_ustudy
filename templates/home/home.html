@@ -65,6 +65,16 @@
     </div>
 </section>
 
+{% if news_list %}
+<section class="container section">
+    <h2 class="section-title">Voqealar va tadbirlar</h2>
+    <div class="grid-4">
+        {% for n in news_list %}{% include 'partials/news_card.html' %}{% endfor %}
+    </div>
+    <div class="center"><a href="{% url 'news' %}" class="btn btn-outline">Barcha yangiliklar</a></div>
+</section>
+{% endif %}
+
 <section class="container section apply-section">
     {% include 'partials/application_form.html' %}
     <div class="card apply-info">

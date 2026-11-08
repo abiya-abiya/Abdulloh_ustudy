@@ -1,6 +1,40 @@
 {% extends 'base.html' %}
+{% block title %}Biz haqimizda — Ustudy{% endblock %}
 {% block content %}
 
-<h1>Yangiliklar Ustudy IT kurslarida o'qitib - ishga yo'naltiramiz!</h1>
+<section class="container section">
+    <div class="card about-intro">
+        <h1>Biz haqimizda</h1>
+        <p>Ustudy — amaliyotga yo'naltirilgan IT-akademiya. Biz o'quvchilarni noldan boshlab real loyihalar,
+           stajirovka va ishga joylashishgacha olib boramiz.</p>
+        <p>Darslarni tajribali mutaxassislar olib boradi, o'quv dasturi esa bozor talablariga qarab muntazam yangilanadi.</p>
+    </div>
+</section>
+
+<section class="container section">
+    <h2 class="section-title">Nega aynan Ustudy?</h2>
+    <div class="grid-3">
+        {% for icon, title, text in advantages %}
+        <div class="card advantage">
+            <div class="advantage-icon" aria-hidden="true">{{ icon }}</div>
+            <h3>{{ title }}</h3>
+            <p>{{ text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="container section">
+    <h2 class="section-title">O'qish qanday o'tadi?</h2>
+    <ol class="steps">
+        {% for title, text in roadmap %}
+        <li class="card"><b>{{ forloop.counter }}. {{ title }}</b><p>{{ text }}</p></li>
+        {% endfor %}
+    </ol>
+</section>
+
+<section class="container section">
+    {% include 'partials/application_form.html' %}
+</section>
 
 {% endblock %}
