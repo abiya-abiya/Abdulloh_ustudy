@@ -1,5 +1,79 @@
-{%extends 'base.html'%}
-{%block content%}
+{% extends 'base.html' %}
+{% block title %}Ustudy IT-academy — IT kurslar{% endblock %}
+{% block content %}
 
+<!-- Hero: chapda shior, o'ngda "kasbga yo'l" bosqichlari -->
+<section class="container section hero">
+    <div class="hero-banner">
+        <span class="badge badge-green">IT-academy</span>
+        <h1>IT kasbini noldan o'rganing va ishga joylashing</h1>
+        <p>Amaliyotga yo'naltirilgan kurslar, tajribali mentorlar va real loyihalar.</p>
+        <div class="hero-actions">
+            <a href="#apply" class="btn btn-primary">Bepul darsga yozilish</a>
+            <a href="{% url 'list_course' %}" class="btn btn-light">Kurslarni ko'rish</a>
+        </div>
+    </div>
 
-{%endblock%}
+    <div class="card roadmap">
+        <h2>Sening yangi kasbga bo'lgan yo'ling</h2>
+        {% for title, text in roadmap %}
+        <details {% if forloop.first %}open{% endif %}>
+            <summary>{{ title }}</summary>
+            <p>{{ text }}</p>
+        </details>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="container section" id="why">
+    <h2 class="section-title">Nega aynan Ustudy?</h2>
+    <div class="grid-3">
+        {% for icon, title, text in advantages %}
+        <div class="card advantage">
+            <div class="advantage-icon" aria-hidden="true">{{ icon }}</div>
+            <h3>{{ title }}</h3>
+            <p>{{ text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% if courses %}
+<section class="container section">
+    <h2 class="section-title">O'z kursingizni tanlang</h2>
+    <div class="grid-4">
+        {% for c in courses %}{% include 'partials/course_card.html' %}{% endfor %}
+    </div>
+    <div class="center"><a href="{% url 'list_course' %}" class="btn btn-outline">Barcha kurslar</a></div>
+</section>
+{% endif %}
+
+{% if speakers %}
+<section class="container section">
+    <h2 class="section-title">Professionallardan o'rganing</h2>
+    <div class="grid-4">
+        {% for i in speakers %}{% include 'partials/mentor_card.html' %}{% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="container section">
+    <div class="card certificate">
+        <h2>Sohada tan olingan sertifikat</h2>
+        <p>Kursni tugatgach, egallagan bilim va ko'nikmalaringizni tasdiqlovchi rasmiy sertifikat olasiz.
+           Sertifikatdagi noyob raqam orqali uning haqiqiyligini istalgan vaqtda onlayn tekshirish mumkin.</p>
+    </div>
+</section>
+
+<section class="container section apply-section">
+    {% include 'partials/application_form.html' %}
+    <div class="card apply-info">
+        <h3>Savollaringiz bormi?</h3>
+        <p>Qo'ng'iroq qiling yoki yozing. Sizga mos kursni tanlashda yordam beramiz.</p>
+        <a href="tel:+998555015353" class="apply-contact">📞 +998 55 501 53 53</a>
+        <a href="mailto:info@ustudy.uz" class="apply-contact">✉️ info@ustudy.uz</a>
+        <a href="{% url 'list_branches' %}" class="apply-contact">📍 Filiallarimiz</a>
+    </div>
+</section>
+
+{% endblock %}

@@ -4,14 +4,41 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from page.forms import SpeakersForm, ApplicationForm
+from courses.models import Courses
 from page.models import Speakers, Branches
 
 
 # Create your views here.
 
 
+# Bosh sahifadagi doimiy bloklar. Tez-tez o'zgarsa, model qilib admin'ga chiqarish mumkin
+ROADMAP = [
+    ("Kasbga kirish", "Soha atamalari, asosiy vositalar va mutaxassisning ish kuni bilan tanishasiz."),
+    ("Texnik stek", "Asosiy texnologiyalarni chuqur o'rganib, mentor nazoratida dastlabki mashqlarni bajarasiz."),
+    ("Real keyslar", "Bozordagidek vazifalar ustida ishlaysiz: dedlayn, texnik topshiriq, jamoaviy ish."),
+    ("Portfolio", "Eng yaxshi ishlaringizni keys qilib rasmiylashtirasiz va ularni taqdim etishni o'rganasiz."),
+    ("Karyera boshlanishi", "Rezyume, suhbatga tayyorgarlik va ish qidirish bo'yicha maslahatlar olasiz."),
+]
+
+ADVANTAGES = [
+    ("🎓", "Dual ta'lim", "Nazariy darslar real loyihalardagi amaliyot bilan birga olib boriladi."),
+    ("🏢", "Kompaniyada stajirovka", "Haqiqiy jamoada ishlab, bilimlaringizni amalda qo'llaysiz."),
+    ("💼", "Ishga joylashish", "Eng yaxshi bitiruvchilarga hamkor kompaniyalarda ish taklif qilinadi."),
+    ("⚙️", "Avtomatlashtirilgan ta'lim", "Platforma progressingizni kuzatib, dasturni sur'atingizga moslaydi."),
+    ("💰", "Birinchi daromad", "Stajirovka davomida real loyihalar uchun haq olasiz."),
+    ("📁", "Real portfolio", "Portfolio o'quv topshiriqlaridan emas, tijorat loyihalaridan yig'iladi."),
+]
+
+
 def home(request):
-    return render(request, 'home/home.html')
+    context = {
+        'roadmap': ROADMAP,
+        'advantages': ADVANTAGES,
+        'courses': Courses.objects.all()[:8],
+        'speakers': Speakers.objects.select_related('course')[:8],
+        'form': ApplicationForm(),
+    }
+    return render(request, 'home/home.html', context)
 
 def about_us(request):
     return render(request, 'about-us/about-us.html')
@@ -33,7 +60,7 @@ def news(request):
 #     return render(request, 'speakers/speakers.html', context)
 
 def list_speakers(request):
-    speakers = Speakers.objects.all()
+    speakers = Speakers.objects.select_related('course')
     context = {'speakers': speakers}
     return render(request, 'speakers/list_speakers.html', context)
 

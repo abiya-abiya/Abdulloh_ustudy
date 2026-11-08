@@ -1,0 +1,9 @@
+<div class="mentor-card">
+    <div class="mentor-image-wrapper">
+        <div class="location-badge">Toshkent - Mirzo Ulug'bek - IT Park</div>
+        {% if i.image %}<img src="{{ i.image.url }}" alt="{{ i.first_name }} {{ i.last_name }}">{% endif %}
+    </div>
+    <h3 class="mentor-name">{{ i.last_name }} {{ i.first_name }}</h3>
+    <p class="mentor-subject">{% if i.course %}{{ i.course.title }}{% else %}{{ i.description }}{% endif %}</p>
+    <div class="mentor-experience">Tajriba: {{ i.experience }}</div>
+</div>

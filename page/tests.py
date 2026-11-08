@@ -42,3 +42,18 @@ class ApplyTests(TestCase):
 
     def test_get_not_allowed(self):
         self.assertEqual(self.client.get(reverse('apply')).status_code, 405)
+
+
+class HomeTests(TestCase):
+    def test_home_shows_courses_speakers_and_form(self):
+        Courses.objects.create(title="Frontend", duration=12, weekday=3, lesson_duration=2, price=2000000)
+        r = self.client.get(reverse('home'))
+        self.assertContains(r, "Frontend")
+        self.assertContains(r, "Nega aynan Ustudy?")
+        self.assertContains(r, 'id="apply"')
+        self.assertContains(r, f'action="{reverse("apply")}"')
+
+    def test_home_without_data_still_renders(self):
+        r = self.client.get(reverse('home'))
+        self.assertEqual(r.status_code, 200)
+        self.assertNotContains(r, "O'z kursingizni tanlang")

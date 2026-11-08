@@ -1,0 +1,223 @@
+/* ===== Tokenlar (ustudy.uz uslubi: och fon, yashil aksent, Montserrat) ===== */
+:root {
+  --bg: #edf0f6;
+  --surface: #ffffff;
+  --surface-2: #f5f5f5;
+  --text: #171717;
+  --text-2: #3d3d3d;
+  --muted: #737373;
+  --border: #e3e6ec;
+  --green: #4eae32;
+  --green-dark: #3f9327;
+  --green-soft: #e6f4e1;
+  --blue: #228be6;
+  --blue-soft: #e5f1fc;
+  --accent: #4546b0;
+  --footer-bg: #11200d;
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow: 0 4px 16px rgba(23, 23, 23, .06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.section { padding: 40px 0; }
+.section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--text-2); margin-bottom: 24px; }
+.card { background: var(--surface); border-radius: var(--radius); padding: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+
+/* Tugmalar */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px; border: 0; border-radius: var(--radius-sm);
+  font: 600 .9rem 'Montserrat', sans-serif; cursor: pointer; transition: background .2s;
+}
+.btn-primary { background: var(--green); color: #fff; }
+.btn-primary:hover { background: var(--green-dark); }
+.btn-block { display: flex; width: 100%; }
+
+/* Badge'lar */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: .7rem; font-weight: 600; }
+.badge-green { background: var(--green-soft); color: var(--green); }
+.badge-blue { background: var(--blue-soft); color: var(--blue); }
+.badge-solid { background: var(--blue); color: #fff; text-transform: uppercase; }
+
+/* ===== Header ===== */
+.site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); }
+.header-inner { display: flex; align-items: center; gap: 24px; min-height: 72px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text-2); }
+.logo-mark {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--green); color: #fff;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: 11px; line-height: 1.05; font-weight: 800;
+}
+.logo-text { font-size: .85rem; letter-spacing: .5px; }
+.site-nav { margin-left: auto; }
+.site-nav ul { display: flex; gap: 24px; list-style: none; }
+.site-nav a { font-size: .8rem; font-weight: 600; color: var(--text-2); padding: 6px 0; border-bottom: 2px solid transparent; }
+.site-nav a:hover, .site-nav a.active { color: var(--green); border-color: var(--green); }
+.burger { display: none; margin-left: auto; width: 40px; height: 40px; border: 0; border-radius: var(--radius-sm); background: var(--green); cursor: pointer; }
+.burger span, .burger span::before, .burger span::after { display: block; width: 18px; height: 2px; background: #fff; margin: 0 auto; position: relative; content: ''; }
+.burger span::before { position: absolute; top: -6px; }
+.burger span::after { position: absolute; top: 6px; }
+
+@media (max-width: 960px) {
+  .burger { display: block; }
+  .header-cta { display: none; }
+  .site-nav {
+    display: none; position: absolute; top: 72px; left: 0; right: 0;
+    background: var(--surface); box-shadow: var(--shadow); padding: 8px 16px 16px;
+  }
+  .site-nav.open { display: block; }
+  .site-nav ul { flex-direction: column; gap: 0; }
+  .site-nav a { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); }
+}
+
+/* Flash xabarlar */
+.flash { margin: 16px 0; padding: 12px 16px; border-radius: var(--radius-sm); color: #fff; }
+.flash-success { background: var(--green); }
+.flash-error { background: #d9534f; }
+
+main { min-height: 60vh; padding-bottom: 40px; }
+
+/* ===== Footer ===== */
+.site-footer { background: var(--footer-bg); color: #fff; padding: 48px 0 24px; font-size: .8rem; }
+.footer-columns { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,.12); }
+.footer-col h4 { font-size: .85rem; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,.12); }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { color: rgba(255,255,255,.8); }
+.footer-col a:hover { color: var(--green); }
+.footer-bottom { padding-top: 20px; color: rgba(255,255,255,.6); }
+@media (max-width: 760px) { .footer-columns { grid-template-columns: 1fr 1fr; } .footer-columns > :first-child { grid-column: 1 / -1; } }
+
+/* ===== Ariza formasi ===== */
+.apply-card { background: var(--green); color: #fff; border-radius: var(--radius-lg); padding: 32px; max-width: 420px; }
+.apply-card h2 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 8px; }
+.apply-card form { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+.apply-card label { font-size: .75rem; }
+.apply-card input, .apply-card select { padding: 10px 12px; border: 0; border-radius: var(--radius-sm); font: 1rem 'Montserrat', sans-serif; margin-bottom: 8px; }
+.apply-card small { font-size: .7rem; opacity: .85; }
+.apply-card button { margin-top: 8px; padding: 12px; border: 0; border-radius: var(--radius-sm); background: rgba(255,255,255,.25); color: #fff; font: 600 .9rem 'Montserrat', sans-serif; cursor: pointer; }
+.apply-card button:hover { background: rgba(255,255,255,.35); }
+
+/* ===== Kurslar ro'yxati ===== */
+.course-card { background: var(--surface); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; min-height: 300px; position: relative; }
+.course-card .course-title { font-size: 1rem; font-weight: 700; color: var(--text-2); margin-bottom: 12px; }
+.course-card .course-badges { display: flex; gap: 6px; margin-bottom: 12px; }
+.course-card .course-age { position: absolute; top: 0; right: 0; background: var(--green); color: #fff; font-size: .65rem; font-weight: 700; padding: 3px 10px; border-radius: 0 var(--radius) 0 var(--radius-sm); }
+.course-card .course-description { color: var(--muted); font-size: .75rem; flex-grow: 1; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.course-card .course-price { font-size: 1.05rem; font-weight: 700; color: var(--text-2); margin-bottom: 12px; }
+
+/* ===== Kurs sahifasi ===== */
+.course-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+.course-hero .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.course-hero h1 { font-size: 1.6rem; color: var(--text-2); margin-bottom: 8px; }
+.course-hero .description { color: var(--muted); font-size: .85rem; margin-bottom: 16px; }
+.course-stats { display: flex; gap: 24px; margin-bottom: 24px; }
+.course-stats div { text-align: center; }
+.course-stats b { display: block; color: var(--green); font-size: 1.05rem; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+.course-stats span { font-size: .7rem; color: var(--muted); }
+.course-hero .price { font-size: 1.6rem; font-weight: 700; color: var(--text-2); margin-bottom: 16px; }
+.course-media img { width: 100%; border-radius: 12px; }
+.course-section { margin-top: 24px; }
+.course-section ul { padding-left: 20px; color: var(--text-2); display: grid; gap: 6px; }
+@media (max-width: 760px) { .course-hero { grid-template-columns: 1fr; } }
+
+.video-preview-wrapper { position: relative; cursor: pointer; border-radius: 12px; overflow: hidden; }
+.video-preview-wrapper img { transition: transform .3s; }
+.video-preview-wrapper:hover img { transform: scale(1.03); }
+.play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.3); display: flex; justify-content: center; align-items: center; }
+.play-icon { width: 64px; height: 64px; background: var(--green); border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+.play-icon::after { content: ""; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #fff; margin-left: 5px; }
+
+.video-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+.video-modal-card { position: relative; width: 100%; max-width: 380px; height: 80vh; background: #000; border-radius: var(--radius); overflow: hidden; }
+.modal-top-bar { position: absolute; top: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(rgba(0,0,0,.8), transparent); display: flex; justify-content: space-between; align-items: center; z-index: 10; color: #fff; }
+.modal-user-info { display: flex; align-items: center; gap: 10px; }
+.modal-user-logo { width: 35px; height: 35px; background: var(--green); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 700; border: 2px solid #fff; }
+.modal-user-text { display: flex; flex-direction: column; font-size: .8rem; }
+.modal-user-sub { font-size: .7rem; opacity: .7; }
+.close-modal-btn { background: none; border: 0; color: #fff; font-size: 24px; cursor: pointer; }
+.modal-video { width: 100%; height: 100%; object-fit: cover; }
+.modal-bottom-overlay { position: absolute; bottom: 50px; right: 15px; z-index: 10; }
+.btn-subscribe { background: var(--green); color: #fff; padding: 8px 16px; border-radius: 20px; font-size: .75rem; font-weight: 700; }
+
+/* ===== O'qituvchilar ===== */
+.mentor-card { background: var(--surface); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.mentor-image-wrapper { position: relative; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; background: var(--surface-2); }
+.mentor-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.location-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: #fff; color: var(--accent); font-size: .65rem; font-weight: 600; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
+.mentor-name { font-size: .95rem; font-weight: 700; color: var(--text-2); }
+.mentor-subject { color: var(--green); font-size: .75rem; font-weight: 600; }
+.mentor-experience { align-self: flex-start; background: var(--surface-2); color: var(--muted); font-size: .7rem; padding: 3px 10px; border-radius: 6px; }
+
+/* ===== Filiallar ===== */
+.branches-card { background: var(--surface); border-radius: var(--radius); overflow: hidden; }
+#map { height: 450px; z-index: 1; }
+.locations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.location-item { background: var(--surface); padding: 20px; cursor: pointer; border-left: 4px solid transparent; transition: background .2s; }
+.location-item:hover { background: var(--surface-2); }
+.location-item.active { border-left-color: var(--green); }
+.location-item h4 { display: flex; align-items: center; gap: 8px; font-size: 1rem; color: var(--text-2); margin-bottom: 6px; }
+.location-item p { font-size: .85rem; color: var(--muted); }
+.location-item.active h4, .location-item.active p { color: var(--green); }
+@media (max-width: 760px) { .locations-grid { grid-template-columns: 1fr; } }
+
+/* ===== Bosh sahifa ===== */
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.center { text-align: center; margin-top: 24px; }
+.btn-light { background: #fff; color: var(--green); }
+.btn-light:hover { background: var(--green-soft); }
+.btn-outline { background: var(--green-soft); color: var(--green); border: 1px solid var(--green); }
+.btn-outline:hover { background: #d6edcd; }
+
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; }
+.hero-banner {
+  border-radius: var(--radius); padding: 40px 32px; color: #fff;
+  background: radial-gradient(circle at 80% 20%, #6cc84e 0, transparent 45%), linear-gradient(135deg, #2f6f1d, #11200d);
+  display: flex; flex-direction: column; justify-content: center; gap: 16px; min-height: 340px;
+}
+.hero-banner .badge { align-self: flex-start; }
+.hero-banner h1 { font-size: clamp(1.6rem, 3.4vw, 2.6rem); line-height: 1.15; }
+.hero-banner p { opacity: .85; max-width: 460px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.roadmap h2 { font-size: 1.2rem; color: var(--text-2); margin-bottom: 12px; }
+.roadmap details { position: relative; padding: 10px 0 10px 28px; border-left: 2px dashed var(--green-soft); margin-left: 8px; }
+.roadmap details::before { content: ''; position: absolute; left: -9px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: var(--green); border: 3px solid var(--green-soft); }
+.roadmap summary { cursor: pointer; font-weight: 600; color: var(--text-2); list-style: none; display: flex; justify-content: space-between; }
+.roadmap summary::after { content: '⌄'; color: var(--muted); }
+.roadmap details[open] summary { color: var(--green); }
+.roadmap details[open] summary::after { content: '⌃'; }
+.roadmap p { font-size: .8rem; color: var(--muted); margin-top: 6px; }
+
+.advantage { text-align: center; padding: 32px 24px; }
+.advantage-icon { width: 96px; height: 96px; margin: 0 auto 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; background: radial-gradient(circle, var(--green-soft) 0, transparent 70%); }
+.advantage h3 { font-size: 1.05rem; color: var(--text-2); margin-bottom: 12px; }
+.advantage p { font-size: .85rem; color: var(--muted); }
+
+.certificate h2 { font-size: 1.5rem; color: var(--text-2); margin-bottom: 12px; }
+.certificate p { color: var(--muted); max-width: 640px; }
+
+.apply-section { display: grid; grid-template-columns: 420px 1fr; gap: 16px; align-items: stretch; }
+.apply-info { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+.apply-info h3 { font-size: 1.4rem; color: var(--text-2); }
+.apply-info p { color: var(--muted); }
+.apply-contact { font-weight: 600; color: var(--text-2); }
+.apply-contact:hover { color: var(--green); }
+
+@media (max-width: 900px) {
+  .hero, .apply-section { grid-template-columns: 1fr; }
+  .apply-card { max-width: none; }
+}

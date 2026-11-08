@@ -1,0 +1,11 @@
+{% load humanize %}<div class="course-card">
+    {% if c.min_age %}<span class="course-age">{{ c.min_age }}+ yoshdan</span>{% endif %}
+    <div class="course-title">{{ c.title }}</div>
+    <div class="course-badges">
+        <span class="badge badge-green">{{ c.duration }} oy</span>
+        <span class="badge badge-blue">{{ c.status }}</span>
+    </div>
+    <div class="course-description">{{ c.description }}</div>
+    <div class="course-price">{{ c.price|intcomma }} so'm oyiga</div>
+    <a href="{% url 'detail_course' pk=c.pk %}" class="btn btn-primary btn-block">Batafsil</a>
+</div>

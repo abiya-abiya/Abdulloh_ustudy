@@ -1,274 +1,96 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ustudy by Uzinfocom</title>
-<style>
-  :root {
-    --bg-dark: #0a0e2a;
-    --bg-dark-2: #0d1230;
-    --green: #4caf50;
-    --green-light: #6fcf73;
-    --text-light: #ffffff;
-    --text-muted: #b7bacb;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-  }
-
-  a { text-decoration: none; color: inherit; }
-
-  /* ===== NAVBAR ===== */
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 60px;
-    background-color: var(--bg-dark);
-  }
-
-  .navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .navbar-logo {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: var(--green);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    text-align: center;
-    line-height: 1.1;
-  }
-
-  .navbar-title {
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.5px;
-  }
-
-  .navbar-links {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    list-style: none;
-  }
-
-  .navbar-links a {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    color: var(--text-light);
-  }
-
-  .navbar-links a:hover {
-    color: var(--green-light);
-  }
-
-  .navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .btn-primary {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--green);
-    color: #fff;
-    font-weight: 700;
-    font-size: 14px;
-    padding: 12px 22px;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
-  }
-
-  .btn-primary:hover {
-    background-color: var(--green-light);
-  }
-
-  /* ===== MAIN CONTENT ===== */
-  main {
-    min-height: 60vh;
-  }
-
-  /* ===== FOOTER ===== */
-  footer {
-    background-color: var(--bg-dark-2);
-    padding: 60px 60px 30px;
-  }
-
-  .footer-columns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 60px;
-    justify-content: space-between;
-    padding-bottom: 40px;
-  }
-
-  .footer-col h4 {
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-
-  .footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .footer-col a {
-    font-size: 14px;
-    color: var(--text-light);
-  }
-
-  .footer-col a:hover {
-    color: var(--green-light);
-  }
-
-  .footer-contact {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-  }
-
-  .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .footer-bottom-links {
-    display: flex;
-    gap: 24px;
-  }
-
-  .footer-bottom-links a:hover {
-    color: var(--text-light);
-  }
-
-  @media (max-width: 900px) {
-    .navbar { flex-wrap: wrap; gap: 16px; padding: 16px 24px; }
-    .navbar-links { flex-wrap: wrap; gap: 16px; }
-    footer { padding: 40px 24px 24px; }
-  }
-</style>
-  <style>
-    .flash { max-width: 1100px; margin: 16px auto; padding: 12px 16px; border-radius: 8px; color: #fff; }
-    .flash-success { background: #4eae32; }
-    .flash-error { background: #d9534f; }
-  </style>
+<title>{% block title %}Ustudy IT-academy{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% block extra_css %}{% endblock %}
 </head>
 <body>
+{% with u=request.resolver_match.url_name %}
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{% url 'home' %}" class="logo" aria-label="Bosh sahifa">
+        <span class="logo-mark">U<br>study</span>
+        <span class="logo-text">USTUDY BY UZINFOCOM</span>
+      </a>
 
-  <!-- ===== NAVBAR ===== -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <div class="navbar-logo">U<br>study</div>
-      <span class="navbar-title">USTUDY BY UZINFOCOM</span>
-    </div>
+      <nav id="site-nav" class="site-nav">
+        <ul>
+          <li><a href="{% url 'about_us' %}" class="{% if u == 'about_us' %}active{% endif %}">BIZ HAQIMIZDA</a></li>
+          <li><a href="{% url 'list_course' %}" class="{% if u == 'list_course' or u == 'detail_course' %}active{% endif %}">KURSLAR</a></li>
+          <li><a href="{% url 'list_speakers' %}" class="{% if u == 'list_speakers' %}active{% endif %}">O'QITUVCHILAR</a></li>
+          <li><a href="{% url 'list_branches' %}" class="{% if u == 'list_branches' %}active{% endif %}">FILIALLAR</a></li>
+          <li><a href="{% url 'news' %}" class="{% if u == 'news' %}active{% endif %}">YANGILIKLAR</a></li>
+          <li><a href="{% url 'contacts' %}" class="{% if u == 'contacts' %}active{% endif %}">KONTAKTLAR</a></li>
+        </ul>
+      </nav>
 
-    <nav>
-      <ul class="navbar-links">
-        <li><a href="{%url 'about_us'%}">BIZ HAQIMIZDA</a></li>
-        <li><a href="{% url 'list_course' %}">KURSLAR</a></li>
-        <li><a href="{% url 'list_speakers' %}">O'QITUVCHILAR</a></li>
-        <li><a href="{% url 'list_branches' %}">FILLIALLAR</a></li>
-        <li><a href="{% url 'news' %}">YANGILIKLAR</a></li>
-        <li><a href="#">KIBERGIGIYENA</a></li>
-      </ul>
-    </nav>
-
-    <div class="navbar-right">
-      <button class="btn-primary">Barcha kurslar ▾</button>
+      <a href="{% url 'list_course' %}" class="btn btn-primary header-cta">Barcha kurslar</a>
+      <button class="burger" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Menyu"><span></span></button>
     </div>
   </header>
+{% endwith %}
 
-  <!-- ===== MAIN CONTENT (o'zingiz to'ldirasiz) ===== -->
   <main>
-    {% for message in messages %}
-      <div class="flash flash-{{ message.tags }}" role="status">{{ message }}</div>
-    {% endfor %}
+    {% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="flash flash-{{ message.tags }}" role="status">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
     {% block content %}
     {% endblock %}
   </main>
 
-  <!-- ===== FOOTER ===== -->
-  <footer>
-    <div class="footer-columns">
-      <div class="footer-col">
-        <h4>Sahifalar</h4>
-        <ul>
-          <li><a href="{%url 'about_us'%}">Biz haqimizda</a></li>
-          <li><a href="#">Maslahat</a></li>
-          <li><a href="{% url 'contacts' %}">Kontaktlar</a></li>
-          <li><a href="#">Ma'ruzachilar</a></li>
-          <li><a href="{% url 'news' %}">Yangiliklar</a></li>
-          <li><a href="#">Kibergigiyena</a></li>
-        </ul>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-columns">
+        <div class="footer-col">
+          <a href="{% url 'home' %}" class="logo"><span class="logo-mark">U<br>study</span></a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Sahifalar</h4>
+          <ul>
+            <li><a href="{% url 'about_us' %}">Biz haqimizda</a></li>
+            <li><a href="{% url 'list_speakers' %}">O'qituvchilar</a></li>
+            <li><a href="{% url 'list_branches' %}">Filiallar</a></li>
+            <li><a href="{% url 'news' %}">Yangiliklar</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Kurslar</h4>
+          <ul>
+            {% for c in footer_courses %}
+              <li><a href="{% url 'detail_course' c.pk %}">{{ c.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Kontaktlar</h4>
+          <ul>
+            <li><a href="tel:+998555015353">+998 55 501 53 53</a></li>
+            <li><a href="mailto:info@ustudy.uz">info@ustudy.uz</a></li>
+            <li><a href="{% url 'contacts' %}">Barcha kontaktlar</a></li>
+          </ul>
+        </div>
       </div>
 
-      <div class="footer-col">
-        <h4>Kurslar</h4>
-        <ul>
-          <!-- kurslar ro'yxati shu yerga -->
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Ijtimoiy tarmoqlar</h4>
-        <ul>
-          <li class="footer-contact">
-            <a href="mailto:info@ustudy.uz">info@ustudy.uz</a>
-          </li>
-          <li class="footer-contact">
-            <a href="tel:+998555015353">+998 55 501 53 53</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <div class="footer-logo">
-        <div class="navbar-logo" style="width:32px;height:32px;font-size:9px;">U<br>study</div>
-        <span>Copyright &copy; 2025 Uzinfocom. Barcha huquqlar himoyalangan.</span>
-      </div>
-      <div class="footer-bottom-links">
-        <a href="#">Terms of Service</a>
-        <a href="#">Privacy Policy</a>
+      <div class="footer-bottom">
+        Copyright &copy; {% now "Y" %} Uzinfocom. Barcha huquqlar himoyalangan.
       </div>
     </div>
   </footer>
 
+<script src="{% static 'js/main.js' %}" defer></script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>
