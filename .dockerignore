@@ -1,0 +1,25 @@
+# Maxfiy fayllar image ichiga tushmasligi kerak
+.env
+.env.*
+!.env.example
+github_uchun
+github_uchun.pub
+*.pem
+*.key
+
+# Keraksiz fayllar
+.git
+.gitignore
+.idea
+.vscode
+.venv
+venv
+.claude
+.mcp.json
+__pycache__
+*.py[cod]
+media
+staticfiles
+db.sqlite3
+Dockerfile
+.dockerignore
