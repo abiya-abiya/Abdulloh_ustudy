@@ -32,10 +32,10 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
-.section { padding: 40px 0; }
+.section { padding-top: 40px; padding-bottom: 40px; }
 .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--text-2); margin-bottom: 24px; }
 .card { background: var(--surface); border-radius: var(--radius); padding: 24px; }
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr)); gap: 16px; }
 
 /* Tugmalar */
 .btn {
@@ -175,7 +175,7 @@ main { min-height: 60vh; padding-bottom: 40px; }
 @media (max-width: 760px) { .locations-grid { grid-template-columns: 1fr; } }
 
 /* ===== Bosh sahifa ===== */
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 16px; }
 .center { text-align: center; margin-top: 24px; }
 .btn-light { background: #fff; color: var(--green); }
 .btn-light:hover { background: var(--green-soft); }
