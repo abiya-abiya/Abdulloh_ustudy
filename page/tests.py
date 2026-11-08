@@ -1,3 +1,44 @@
 from django.test import TestCase
+from django.urls import reverse
 
-# Create your tests here.
+from courses.models import Courses
+from page.models import Application, Branches
+
+
+class ApplyTests(TestCase):
+    def setUp(self):
+        self.branch = Branches.objects.create(name="IT Park", address="Toshkent", latitude=41.3, longitude=69.3)
+        self.course = Courses.objects.create(title="Backend", duration=12, weekday=3, lesson_duration=2, price=2000000)
+
+    def post(self, **data):
+        payload = {'branch': self.branch.pk, 'full_name': 'Ali Valiyev', 'phone': '+998 90 123-45-67', **data}
+        return self.client.post(reverse('apply'), payload, follow=True)
+
+    def test_valid_application_saved_with_normalized_phone(self):
+        r = self.post(course=self.course.pk, next=reverse('detail_course', args=[self.course.pk]))
+        app = Application.objects.get()
+        self.assertEqual(app.phone, '+998901234567')
+        self.assertEqual(app.course, self.course)
+        self.assertContains(r, "Arizangiz qabul qilindi")
+
+    def test_nine_digit_phone_gets_country_code(self):
+        self.post(phone='90 123 45 67')
+        self.assertEqual(Application.objects.get().phone, '+998901234567')
+
+    def test_bad_phone_rejected(self):
+        r = self.post(phone='12345')
+        self.assertFalse(Application.objects.exists())
+        self.assertContains(r, "+998 XX XXX XX XX")
+
+    def test_inactive_branch_rejected(self):
+        self.branch.is_active = False
+        self.branch.save()
+        self.post()
+        self.assertFalse(Application.objects.exists())
+
+    def test_external_next_ignored(self):
+        r = self.client.post(reverse('apply'), {'branch': self.branch.pk, 'full_name': 'A', 'phone': '901234567', 'next': 'https://evil.com/'})
+        self.assertRedirects(r, reverse('home'), fetch_redirect_response=False)
+
+    def test_get_not_allowed(self):
+        self.assertEqual(self.client.get(reverse('apply')).status_code, 405)

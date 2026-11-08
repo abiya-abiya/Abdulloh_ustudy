@@ -183,6 +183,11 @@
     footer { padding: 40px 24px 24px; }
   }
 </style>
+  <style>
+    .flash { max-width: 1100px; margin: 16px auto; padding: 12px 16px; border-radius: 8px; color: #fff; }
+    .flash-success { background: #4eae32; }
+    .flash-error { background: #d9534f; }
+  </style>
 </head>
 <body>
 
@@ -211,6 +216,9 @@
 
   <!-- ===== MAIN CONTENT (o'zingiz to'ldirasiz) ===== -->
   <main>
+    {% for message in messages %}
+      <div class="flash flash-{{ message.tags }}" role="status">{{ message }}</div>
+    {% endfor %}
     {% block content %}
     {% endblock %}
   </main>

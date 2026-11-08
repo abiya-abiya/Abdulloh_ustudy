@@ -8,13 +8,16 @@ class CourseForm(forms.ModelForm):
         model = Courses
         fields = [
             'title',
+            'description',
             'duration',
             'price',
             'image',
+            'video',
             'status',
+            'min_age',
             'lesson_duration',
-            'weekday'
+            'weekday',
+            'target_audience',
+            'what_you_learn',
+            'skills',
         ]
-
-
-

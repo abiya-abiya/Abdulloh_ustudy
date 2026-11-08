@@ -6,6 +6,7 @@ class Speakers(models.Model):
     description = models.TextField()
     experience = models.TextField()
     image = models.ImageField(upload_to='speakers/', blank=True, null=True)
+    course = models.ForeignKey('courses.Courses', on_delete=models.SET_NULL, null=True, blank=True, related_name='speakers')
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -19,3 +20,21 @@ class Branches(models.Model):
     def __str__(self):
         return self.name
 
+
+
+class Application(models.Model):
+    """'Bepul darsga yoziling' / 'Kursga yozilish' formasidan kelgan ariza."""
+    branch = models.ForeignKey(Branches, on_delete=models.SET_NULL, null=True, verbose_name="Filial")
+    course = models.ForeignKey('courses.Courses', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Kurs")
+    full_name = models.CharField(max_length=150, verbose_name="Ism va familiya")
+    phone = models.CharField(max_length=13, verbose_name="Telefon raqami")
+    is_contacted = models.BooleanField(default=False, verbose_name="Bog'lanildimi?")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Yuborilgan vaqt")
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Ariza"
+        verbose_name_plural = "Arizalar"
+
+    def __str__(self):
+        return f"{self.full_name} ({self.phone})"

@@ -1,6 +1,9 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_POST
 
-from page.forms import SpeakersForm
+from page.forms import SpeakersForm, ApplicationForm
 from page.models import Speakers, Branches
 
 
@@ -40,3 +43,17 @@ def list_branches(request):
     context = {'branches': branches}
     return render(request, 'branches/branches.html', context)
 # def
+
+@require_POST
+def apply(request):
+    form = ApplicationForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Arizangiz qabul qilindi! Tez orada siz bilan bog'lanamiz.")
+    else:
+        # shortcut: xatolar flash-xabar bo'lib chiqadi, maydon yonida emas; kerak bo'lsa formani qayta render qilish kerak
+        messages.error(request, " ".join(e for errs in form.errors.values() for e in errs))
+    next_url = request.POST.get('next', '')
+    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        next_url = 'home'
+    return redirect(next_url)

@@ -246,9 +246,8 @@
         <!-- Chap tomondagi ma'lumotlar -->
         <div class="detail-left">
             <div class="detail-title">{{ course.title }}</div>
-            <div class="detail-description">
-                Ushbu ta'lim dasturi sizga IT sohasida asosiy bilim va amaliy ko'nikmalarni shakllantirishga yordam beradi. Dasturlash asoslari va texnologiyalarga qiziqishni orttirish maqsadida interaktiv va amaliy topshiriqlar bajariladi.
-            </div>
+            {% if course.min_age %}<div class="badge-value">{{ course.min_age }}+ yoshdan</div>{% endif %}
+            <div class="detail-description">{{ course.description|linebreaksbr }}</div>
 
             <div class="detail-badges">
                 <div class="badge-item">
@@ -266,7 +265,7 @@
             </div>
 
             <div class="detail-price">{{ course.price }} so'm oyiga</div>
-            <a href="#" class="btn-yozilish">Kursga yozilish</a>
+            <a href="#apply" class="btn-yozilish">Kursga yozilish</a>
         </div>
 
         <!-- O'ng tomondagi media-karta (Video bosilishidan oldin) -->
@@ -292,6 +291,21 @@
         </div>
 
     </div>
+
+    {% if course.target_audience %}
+    <h2>Ushbu kurs kimlarga mos keladi?</h2>
+    <ul>{% for line in course.target_audience.splitlines %}{% if line %}<li>{{ line }}</li>{% endif %}{% endfor %}</ul>
+    {% endif %}
+    {% if course.what_you_learn %}
+    <h2>Kursda nimani o'rganasiz?</h2>
+    <ul>{% for line in course.what_you_learn.splitlines %}{% if line %}<li>{{ line }}</li>{% endif %}{% endfor %}</ul>
+    {% endif %}
+    {% if course.skills %}
+    <h2>Siz ega bo'ladigan ko'nikmalar</h2>
+    <ul>{% for line in course.skills.splitlines %}{% if line %}<li>{{ line }}</li>{% endif %}{% endfor %}</ul>
+    {% endif %}
+
+    {% include 'partials/application_form.html' with apply_title="Kursga yoziling" %}
 </div>
 
 <!-- =============================================
@@ -321,7 +335,7 @@
 
         <!-- SUBSCRIBE Tugmasi (Overlay kabi) -->
         <div class="modal-bottom-overlay">
-            <a href="#" class="btn-subscribe">
+            <a href="#apply" class="btn-subscribe">
                 🔔 KURSGA YOZILISH
             </a>
         </div>
@@ -355,6 +369,9 @@
             video.pause(); // videoni to'xtatish
         });
     }
+
+    // "Kursga yozilish" bosilganda modalni yopib, formaga o'tish
+    document.querySelector('.btn-subscribe')?.addEventListener('click', () => { modal.style.display = 'none'; video.pause(); });
 
     // Modal tashqarisiga (orqa fonga) bosilganda yopish
     if (modal && video) {

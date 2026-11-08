@@ -1,0 +1,28 @@
+<section class="apply-card" id="apply">
+  <h2>{{ apply_title|default:"Bepul darsga yoziling" }}</h2>
+  <p>Formani to'ldiring va biz siz bilan maslahatlashish uchun bog'lanamiz!</p>
+  <form method="post" action="{% url 'apply' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}#apply">
+    {{ form.course }}
+    <label for="{{ form.branch.id_for_label }}">Filial *</label>
+    {{ form.branch }}
+    <label for="{{ form.full_name.id_for_label }}">Ism va familiya *</label>
+    {{ form.full_name }}
+    <label for="{{ form.phone.id_for_label }}">Telefon raqami *</label>
+    {{ form.phone }}
+    <small>Tugmani bosish orqali siz Foydalanuvchi shartnomasiga va Maxfiylik siyosatiga rozilik bildirasiz</small>
+    <button type="submit">Qayta qo'ng'iroq buyurtma qilish</button>
+  </form>
+</section>
+
+<style>
+  .apply-card { background: #4eae32; color: #fff; border-radius: 24px; padding: 32px; max-width: 420px; margin: 40px auto; }
+  .apply-card h2 { margin: 0 0 8px; font-size: 1.8rem; }
+  .apply-card form { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+  .apply-card label { font-size: .8rem; }
+  .apply-card input, .apply-card select { padding: 10px 12px; border: 0; border-radius: 8px; font-size: 1rem; margin-bottom: 8px; }
+  .apply-card small { font-size: .7rem; opacity: .85; }
+  .apply-card button { margin-top: 8px; padding: 12px; border: 0; border-radius: 8px; background: rgba(255,255,255,.25); color: #fff; font-weight: 600; cursor: pointer; }
+  .apply-card button:hover { background: rgba(255,255,255,.35); }
+</style>
